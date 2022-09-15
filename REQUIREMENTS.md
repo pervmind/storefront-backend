@@ -5,19 +5,19 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
+- Index An INDEX route: 'api/products/index' [GET]
+- Show A SHOW routes: 'api/products/show/:id' [GET]
+- Create [token required] A CREATE route: 'api/products/create' [POST]
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required] An INDEX route: 'api/users/index' [GET]
+- Show [token required] A SHOW route: 'api/users/show/:id' [GET]
+- Create N[token required] A CREATE route: 'api/users/create' [POST]
 
 #### Orders
-- Current Order by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required] A SHOW route: 'api/orders/:id' [GET]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
@@ -40,3 +40,18 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
+#### Database Tables
+##### products table
+| id | name | price |
+| -- | ---- | ----- |
+| SERIAL PRIMARY KEY | VARCHAR | INTEGER |
+
+##### users table
+| id | firstName | lastName | password |
+| -- | --------- | -------- | -------- |
+| SERIAL PRIMARY KEY | VARCHAR | VARCHAR | VARCHAR|
+
+##### orders table
+| id | product_id | quantity | user_id |
+| -- | ---------- | -------- | ------- |
+| SERIAL PRIMARY KEY | FOREIGN KEY REFRENCES products(id) | INTEGER | FOREIGN KEY REFRENCES users(id) |
