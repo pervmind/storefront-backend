@@ -47,9 +47,9 @@ These are the notes from a meeting with the frontend developer that describe wha
 | SERIAL PRIMARY KEY | VARCHAR | INTEGER |
 
 ##### users table
-| id | firstName | lastName | password |
-| -- | --------- | -------- | -------- |
-| SERIAL PRIMARY KEY | VARCHAR | VARCHAR | VARCHAR|
+| id | username | firstName | lastName | password |
+| -- | -------- | --------- | -------- | -------- |
+| SERIAL PRIMARY KEY | VARCHAR | VARCHAR | VARCHAR | VARCHAR |
 
 ##### orders table
 | id | product_id | quantity | user_id |
