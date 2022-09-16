@@ -3,5 +3,5 @@ CREATE TABLE users (
     username VARCHAR,
     first_name VARCHAR,
     last_name VARCHAR,
-    password VARCHAR
+    password_hashed VARCHAR
 );

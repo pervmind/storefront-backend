@@ -9,6 +9,7 @@ var cors_1 = __importDefault(require("cors"));
 var app = (0, express_1["default"])();
 var address = "0.0.0.0:3000";
 app.use(body_parser_1["default"].json());
+// added cors
 app.use((0, cors_1["default"])());
 app.get('/', function (req, res) {
     res.send('Hello World!');
