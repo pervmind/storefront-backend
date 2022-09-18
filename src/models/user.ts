@@ -26,11 +26,12 @@ export class UserStore {
             throw new Error(`${error}`)
         }
     }
-    async show(id: number): Promise<User> {
+    async show(username: string): Promise<User> {
         try{
             const connection = await database.connect();
-            const sql = 'SELECT * FROM users WHERE id = $1';
-            const output = await connection.query(sql, [id]);
+            const sql = `SELECT * FROM users WHERE username = '${username}'`;
+            console.log(sql);
+            const output = await connection.query(sql);
             connection.release();
             return output.rows[0]
         }catch(error){
@@ -40,9 +41,10 @@ export class UserStore {
     async create(user: User): Promise<User> {
         try{
             const connection = await database.connect();
-            const sql = 'INSERT INTO users (username, password_hashed, first_name, last_name) VALUES ($1, $2, $3, $4)';
             const hashed = bcrypt.hashSync(user.password + pepper, parseInt(rounds))
-            const output = await connection.query(sql, [user.username, hashed, user.firstName, user.lastName]);
+            const sql = `INSERT INTO users (username, password_hashed, first_name, last_name) VALUES ('${user.username}', '${hashed}', '${user.firstName}' , '${user.lastName}')`;
+            console.log(hashed)
+            const output = await connection.query(sql);
             connection.release();
             return output.rows[0]
         }
@@ -51,16 +53,19 @@ export class UserStore {
         }
     }
     async auth(username: string, password: string): Promise<User | null> {
-        
-        const connection = await database.connect();
-        const sql = 'SELECT password_hashed FROM users WHERE username = ($1)'
-        const output = await connection.query(sql, [username]);
-        if( output.rows.length ){        
-        const user = output.rows[0];
-            if (bcrypt.compareSync(password + pepper, user.password_hashed)){
-                return user
+        try{
+            const connection = await database.connect();
+            const sql = `SELECT password_hashed FROM users WHERE username = ${username}`
+            const output = await connection.query(sql);
+            if( output.rows.length ){        
+                const user = output.rows[0];
+                if (bcrypt.compareSync(password + pepper, user.password_hashed)){
+                    return user
+                }
             }
+            return null
+        } catch(error){
+            throw new Error(`${error}`)
         }
-        return null
     }
 }

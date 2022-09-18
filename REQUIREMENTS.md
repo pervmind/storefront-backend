@@ -12,9 +12,9 @@ These are the notes from a meeting with the frontend developer that describe wha
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required] An INDEX route: 'api/users/index' [GET]
-- Show [token required] A SHOW route: 'api/users/show/:id' [GET]
-- Create N[token required] A CREATE route: 'api/users/create' [POST]
+- Index [token required] An INDEX route: '/users' [GET]
+- Show [token required] A SHOW route: '/users/:id' [GET]
+- Create N[token required] A CREATE route: '/users' [POST]
 
 #### Orders
 - Current Order by user (args: user id)[token required] A SHOW route: 'api/orders/:id' [GET]
