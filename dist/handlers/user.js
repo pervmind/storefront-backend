@@ -35,8 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var user_1 = require("../models/user");
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1["default"].config();
+var tokenSecret = process.env.SECRETTOKEN;
 var userStore = new user_1.UserStore();
 var index = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var usersList;
@@ -56,7 +63,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userStore.show(req.body.username)];
+                return [4 /*yield*/, userStore.show(req.body.id)];
             case 1:
                 shownUser = _a.sent();
                 res.json(shownUser);
@@ -71,7 +78,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newUser, user, error_2;
+    var newUser, user, jwtoken, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -86,7 +93,9 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, userStore.create(newUser)];
             case 1:
                 user = _a.sent();
-                res.json(user);
+                jwtoken = jsonwebtoken_1["default"].sign({ user: user }, tokenSecret);
+                console.log(jwtoken);
+                res.json(jwtoken);
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _a.sent();
@@ -96,9 +105,31 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
+var authentication = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userName, password, user, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                userName = req.body.username;
+                password = req.body.password;
+                return [4 /*yield*/, userStore.auth(userName, password)];
+            case 1:
+                user = _a.sent();
+                res.json(user);
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _a.sent();
+                res.status(400).send(error_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 var users_routes = function (app) {
     app.get("/users", index);
     app.get("/users/:id", show);
     app.post("/users", create);
+    app.post("/users/auth", authentication);
 };
 exports["default"] = users_routes;

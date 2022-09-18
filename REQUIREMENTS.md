@@ -5,19 +5,30 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index An INDEX route: 'api/products/index' [GET]
-- Show A SHOW routes: 'api/products/show/:id' [GET]
-- Create [token required] A CREATE route: 'api/products/create' [POST]
+- Index 
+- An INDEX route: '/products' [GET]
+- Show 
+- A SHOW routes: '/products/:id' [GET]
+- Create [token required]
+- A CREATE route: '/products' [POST]
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required] An INDEX route: '/users' [GET]
-- Show [token required] A SHOW route: '/users/:id' [GET]
-- Create N[token required] A CREATE route: '/users' [POST]
+- Index [token required] 
+- An INDEX route: '/users' [GET]
+- Show [token required] 
+- A SHOW route: '/users/:id' [GET]
+- Create N[token required] 
+- A CREATE route: '/users' [POST]
 
 #### Orders
-- Current Order by user (args: user id)[token required] A SHOW route: 'api/orders/:id' [GET]
+- Current Order by user (args: user id)[token required] 
+- A SHOW route: '/orders/:id' [GET]
+- Create [token required] 
+- A CREATE route: '/orders' [POST]
+- Index 
+- An INDEX route: '/orders' [GET]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
@@ -52,6 +63,10 @@ These are the notes from a meeting with the frontend developer that describe wha
 | SERIAL PRIMARY KEY | VARCHAR | VARCHAR | VARCHAR | VARCHAR |
 
 ##### orders table
-| id | product_id | quantity | user_id |
-| -- | ---------- | -------- | ------- |
-| SERIAL PRIMARY KEY | FOREIGN KEY REFRENCES products(id) | INTEGER | FOREIGN KEY REFRENCES users(id) |
+| id | user_id | status |
+| -- | ------- | ------ |
+| SERIAL PRIMARY KEY | INTEGER | VARCHAR |
+##### products_order table 
+| order_id | product_id | quantity|
+| -------- | ---------- | ------- |
+| INTEGER | INTEGER | INTEGER|

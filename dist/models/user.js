@@ -73,7 +73,7 @@ var UserStore = /** @class */ (function () {
             });
         });
     };
-    UserStore.prototype.show = function (username) {
+    UserStore.prototype.show = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var connection, sql, output, error_2;
             return __generator(this, function (_a) {
@@ -83,7 +83,7 @@ var UserStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         connection = _a.sent();
-                        sql = "SELECT * FROM users WHERE username = '".concat(username, "'");
+                        sql = "SELECT * FROM users WHERE id = ".concat(id);
                         console.log(sql);
                         return [4 /*yield*/, connection.query(sql)];
                     case 2:
@@ -100,26 +100,29 @@ var UserStore = /** @class */ (function () {
     };
     UserStore.prototype.create = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var connection, hashed, sql, output, error_3;
+            var connection, hashed, sql, selectsql, output, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 4, , 5]);
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         connection = _a.sent();
                         hashed = bcrypt_1["default"].hashSync(user.password + pepper, parseInt(rounds));
                         sql = "INSERT INTO users (username, password_hashed, first_name, last_name) VALUES ('".concat(user.username, "', '").concat(hashed, "', '").concat(user.firstName, "' , '").concat(user.lastName, "')");
-                        console.log(hashed);
+                        selectsql = "SELECT * FROM users WHERE username = '".concat(user.username, "'");
                         return [4 /*yield*/, connection.query(sql)];
                     case 2:
+                        _a.sent();
+                        return [4 /*yield*/, connection.query(selectsql)];
+                    case 3:
                         output = _a.sent();
                         connection.release();
                         return [2 /*return*/, output.rows[0]];
-                    case 3:
+                    case 4:
                         error_3 = _a.sent();
                         throw new Error("".concat(error_3));
-                    case 4: return [2 /*return*/];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
@@ -134,7 +137,7 @@ var UserStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         connection = _a.sent();
-                        sql = "SELECT password_hashed FROM users WHERE username = ".concat(username);
+                        sql = "SELECT * FROM users WHERE username = '".concat(username, "'");
                         return [4 /*yield*/, connection.query(sql)];
                     case 2:
                         output = _a.sent();

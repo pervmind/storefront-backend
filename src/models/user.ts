@@ -26,10 +26,10 @@ export class UserStore {
             throw new Error(`${error}`)
         }
     }
-    async show(username: string): Promise<User> {
+    async show(id: string): Promise<User> {
         try{
             const connection = await database.connect();
-            const sql = `SELECT * FROM users WHERE username = '${username}'`;
+            const sql = `SELECT * FROM users WHERE id = ${id}`;
             console.log(sql);
             const output = await connection.query(sql);
             connection.release();
@@ -43,8 +43,9 @@ export class UserStore {
             const connection = await database.connect();
             const hashed = bcrypt.hashSync(user.password + pepper, parseInt(rounds))
             const sql = `INSERT INTO users (username, password_hashed, first_name, last_name) VALUES ('${user.username}', '${hashed}', '${user.firstName}' , '${user.lastName}')`;
-            console.log(hashed)
-            const output = await connection.query(sql);
+            const selectsql = `SELECT * FROM users WHERE username = '${user.username}'`;
+            await connection.query(sql);
+            const output = await connection.query(selectsql);
             connection.release();
             return output.rows[0]
         }
@@ -55,7 +56,7 @@ export class UserStore {
     async auth(username: string, password: string): Promise<User | null> {
         try{
             const connection = await database.connect();
-            const sql = `SELECT password_hashed FROM users WHERE username = ${username}`
+            const sql = `SELECT * FROM users WHERE username = '${username}'`
             const output = await connection.query(sql);
             if( output.rows.length ){        
                 const user = output.rows[0];
