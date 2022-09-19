@@ -36,24 +36,10 @@ const create = async (req: express.Request, res: express.Response) =>{
     }
 }
 
-const addProduct = async (req: express.Request, res: express.Response) =>{
-    try{
-        const orderId = req.params.id;
-        const productId = req.body.productId;
-        const quantity = req.body.quantity;
-        const productAdded = await orderStore.addProduct(orderId, productId, quantity);
-        res.json(productAdded)
-    } catch(error){
-        console.log(error);
-        res.status(400).send(error);
-    }
-        
-}
 
 const orders_routes = (app: express.Application)=>{
     app.get("/orders", index);
     app.get("/orders/:id", jwtValidator, show);
     app.post("/orders", jwtValidator, create);
-    app.post("/orders/:id/products", jwtValidator, addProduct);
 }
 export default orders_routes;

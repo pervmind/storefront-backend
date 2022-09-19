@@ -39,68 +39,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var order_1 = require("../models/order");
+var orderedProduct_1 = require("../services/orderedProduct");
 var jwtValidator_1 = __importDefault(require("../middleweres/jwtValidator"));
-var orderStore = new order_1.OrderStore();
-var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var ordersList;
+var dashboard = new orderedProduct_1.Dashboard();
+var orderedProducts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var productAdded;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, orderStore.index()];
+            case 0:
+                console.log('dashboard_routes');
+                return [4 /*yield*/, dashboard.addProduct(req.params.id, req.body.productId, req.body.quantity)];
             case 1:
-                ordersList = _a.sent();
-                res.json(ordersList);
+                productAdded = _a.sent();
+                res.json(productAdded);
                 return [2 /*return*/];
         }
     });
 }); };
-var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var shownOrder, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, orderStore.show(parseInt(req.params.id))];
-            case 1:
-                shownOrder = _a.sent();
-                res.json(shownOrder);
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _a.sent();
-                console.log(error_1);
-                res.status(400).send(error_1);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newOrder, order, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                newOrder = {
-                    id: req.body.id,
-                    userId: req.body.userId,
-                    status: req.body.status
-                };
-                return [4 /*yield*/, orderStore.create(newOrder)];
-            case 1:
-                order = _a.sent();
-                res.json(order);
-                return [3 /*break*/, 3];
-            case 2:
-                error_2 = _a.sent();
-                res.status(400).send(error_2);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-var orders_routes = function (app) {
-    app.get("/orders", index);
-    app.get("/orders/:id", jwtValidator_1["default"], show);
-    app.post("/orders", jwtValidator_1["default"], create);
+var dashboard_routes = function (app) {
+    app.post("/orders/:id/products", jwtValidator_1["default"], orderedProducts);
 };
-exports["default"] = orders_routes;
+exports["default"] = dashboard_routes;

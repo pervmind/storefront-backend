@@ -39,64 +39,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.OrderStore = void 0;
+exports.Dashboard = void 0;
 var database_1 = __importDefault(require("../database"));
-var OrderStore = /** @class */ (function () {
-    function OrderStore() {
+var Dashboard = /** @class */ (function () {
+    function Dashboard() {
     }
-    OrderStore.prototype.index = function () {
+    Dashboard.prototype.addProduct = function (orderId, productId, quantity) {
         return __awaiter(this, void 0, void 0, function () {
-            var connection, sql, output, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, database_1["default"].connect()];
-                    case 1:
-                        connection = _a.sent();
-                        sql = 'SELECT * FROM orders';
-                        return [4 /*yield*/, connection.query(sql)];
-                    case 2:
-                        output = _a.sent();
-                        connection.release();
-                        return [2 /*return*/, output.rows];
-                    case 3:
-                        error_1 = _a.sent();
-                        throw new Error("".concat(error_1));
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    OrderStore.prototype.show = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var connection, sql, sql2, output, error_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, database_1["default"].connect()];
-                    case 1:
-                        connection = _a.sent();
-                        sql = "SELECT * FROM orders WHERE id = ".concat(id);
-                        sql2 = "SELECT * FROM orders INNER JOIN products_order ON orders.id = products_order.order_id WHERE orders.id = ".concat(id);
-                        console.log(sql2);
-                        return [4 /*yield*/, connection.query(sql2)];
-                    case 2:
-                        output = _a.sent();
-                        connection.release();
-                        return [2 /*return*/, output.rows];
-                    case 3:
-                        error_2 = _a.sent();
-                        throw new Error("".concat(error_2));
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    OrderStore.prototype.create = function (order) {
-        return __awaiter(this, void 0, void 0, function () {
-            var connection, sql, selectsql, output, error_3;
+            var connection, sql, selectsql, output, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -104,8 +54,8 @@ var OrderStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         connection = _a.sent();
-                        sql = "INSERT INTO orders (user_id, status) VALUES (".concat(order.userId, ", '").concat(order.status, "')");
-                        selectsql = "SELECT * FROM orders WHERE user_id = ".concat(order.userId);
+                        sql = "INSERT INTO products_order (order_id, product_id, quantity) VALUES (".concat(orderId, ", ").concat(productId, ", ").concat(quantity, ")");
+                        selectsql = "SELECT * FROM products_order WHERE order_id = ".concat(orderId);
                         return [4 /*yield*/, connection.query(sql)];
                     case 2:
                         _a.sent();
@@ -113,15 +63,15 @@ var OrderStore = /** @class */ (function () {
                     case 3:
                         output = _a.sent();
                         connection.release();
-                        return [2 /*return*/, output.rows[0]];
+                        return [2 /*return*/, output.rows];
                     case 4:
-                        error_3 = _a.sent();
-                        throw new Error("".concat(error_3));
+                        error_1 = _a.sent();
+                        throw new Error("Error adding product");
                     case 5: return [2 /*return*/];
                 }
             });
         });
     };
-    return OrderStore;
+    return Dashboard;
 }());
-exports.OrderStore = OrderStore;
+exports.Dashboard = Dashboard;
