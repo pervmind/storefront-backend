@@ -29,7 +29,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - A CREATE route: '/orders' [POST]
 - Index 
 - An INDEX route: '/orders' [GET]
-- Add to order
+- Add to order [token required]
 - A CREATE route: '/orders/:id/products' [POST]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
