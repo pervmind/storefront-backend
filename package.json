@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "jasmine-ts",
+    "test": "npm run testmigrateup && jasmine-ts && npm run testmigratedown",
+    "testmigrateup": "ENV=test db-migrate --env test up",
+    "testmigratedown": "db-migrate --env test reset",
     "tsc": "tsc"
   },
   "author": "Udacity",
