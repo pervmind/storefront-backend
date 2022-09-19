@@ -2,12 +2,13 @@ import express  from "express";
 import { User, UserStore } from "../models/user";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import jwtValidator from "../middleweres/jwtValidator"
 dotenv.config();
-const tokenSecret = process.env.SECRETTOKEN as string;
+export const tokenSecret = process.env.SECRETTOKEN as string;
 
 const userStore = new UserStore();
 
-const index = async (req: express.Request, res: express.Response) => {
+const index = async (_req: express.Request, res: express.Response) => {
 
     const usersList = await userStore.index();
     res.json(usersList);
@@ -15,7 +16,7 @@ const index = async (req: express.Request, res: express.Response) => {
 
 const show = async (req: express.Request, res: express.Response) => {
     try{
-        const shownUser = await userStore.show(req.body.id);
+        const shownUser = await userStore.show(parseInt(req.params.id));
         res.json(shownUser);
     } catch (error) {
         console.log(error);
@@ -52,11 +53,10 @@ const authentication = async (req: express.Request, res: express.Response) => {
     }
 }
 
-
 const users_routes = (app: express.Application) => {
-    app.get("/users", index);
-    app.get("/users/:id", show);   
+    app.get("/users", jwtValidator, index);
+    app.get("/users/:id", jwtValidator, show);   
     app.post("/users", create);
-    app.post("/users/auth", authentication)
+    app.post("/users/auth",jwtValidator, authentication)
 }
 export default users_routes;

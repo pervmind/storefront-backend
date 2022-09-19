@@ -1,1 +1,1 @@
-DROP TABLE products-order;
+DROP TABLE products_order;

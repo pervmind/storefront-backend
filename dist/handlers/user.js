@@ -39,13 +39,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+exports.tokenSecret = void 0;
 var user_1 = require("../models/user");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var jwtValidator_1 = __importDefault(require("../middleweres/jwtValidator"));
 dotenv_1["default"].config();
-var tokenSecret = process.env.SECRETTOKEN;
+exports.tokenSecret = process.env.SECRETTOKEN;
 var userStore = new user_1.UserStore();
-var index = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var usersList;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -63,7 +65,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userStore.show(req.body.id)];
+                return [4 /*yield*/, userStore.show(parseInt(req.params.id))];
             case 1:
                 shownUser = _a.sent();
                 res.json(shownUser);
@@ -93,7 +95,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, userStore.create(newUser)];
             case 1:
                 user = _a.sent();
-                jwtoken = jsonwebtoken_1["default"].sign({ user: user }, tokenSecret);
+                jwtoken = jsonwebtoken_1["default"].sign({ user: user }, exports.tokenSecret);
                 console.log(jwtoken);
                 res.json(jwtoken);
                 return [3 /*break*/, 3];
@@ -127,9 +129,9 @@ var authentication = function (req, res) { return __awaiter(void 0, void 0, void
     });
 }); };
 var users_routes = function (app) {
-    app.get("/users", index);
-    app.get("/users/:id", show);
+    app.get("/users", jwtValidator_1["default"], index);
+    app.get("/users/:id", jwtValidator_1["default"], show);
     app.post("/users", create);
-    app.post("/users/auth", authentication);
+    app.post("/users/auth", jwtValidator_1["default"], authentication);
 };
 exports["default"] = users_routes;

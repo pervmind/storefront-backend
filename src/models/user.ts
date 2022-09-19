@@ -26,7 +26,7 @@ export class UserStore {
             throw new Error(`${error}`)
         }
     }
-    async show(id: string): Promise<User> {
+    async show(id: number): Promise<User> {
         try{
             const connection = await database.connect();
             const sql = `SELECT * FROM users WHERE id = ${id}`;

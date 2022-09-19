@@ -29,6 +29,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 - A CREATE route: '/orders' [POST]
 - Index 
 - An INDEX route: '/orders' [GET]
+- Add to order
+- A CREATE route: '/orders/:id/products' [POST]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
@@ -67,6 +69,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 | -- | ------- | ------ |
 | SERIAL PRIMARY KEY | INTEGER | VARCHAR |
 ##### products_order table 
-| order_id | product_id | quantity|
-| -------- | ---------- | ------- |
-| INTEGER | INTEGER | INTEGER|
+| id | order_id | product_id | quantity|
+| -- | -------- | ---------- | ------- |
+| SERIAL PRIMARY KEY | INTEGER | INTEGER | INTEGER|
