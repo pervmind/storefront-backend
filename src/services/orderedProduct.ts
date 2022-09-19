@@ -1,4 +1,5 @@
 import database from "../database";
+import { Order } from "../models/order";
 
 export class Dashboard {
     async addProduct(orderId: string, productId: string, quantity: string):Promise<{id : number ,user_id: number, status: string, order_id: number, quantity: number}[]> {
@@ -15,5 +16,16 @@ export class Dashboard {
             throw new Error(`Error adding product`);
         }
 
+    }
+    async showProducts(id: number): Promise<Order[]> {
+        try{
+            const connection = await database.connect();
+            const sql = `SELECT * FROM orders INNER JOIN products_order ON orders.id = products_order.order_id WHERE orders.id = ${id}`;
+            const output = await connection.query(sql);
+            connection.release();
+            return output.rows
+        }catch(error){
+            throw new Error(`${error}`)
+        }
     }
 }

@@ -70,7 +70,7 @@ var OrderStore = /** @class */ (function () {
     };
     OrderStore.prototype.show = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var connection, sql, sql2, output, error_2;
+            var connection, sql, output, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -79,9 +79,7 @@ var OrderStore = /** @class */ (function () {
                     case 1:
                         connection = _a.sent();
                         sql = "SELECT * FROM orders WHERE id = ".concat(id);
-                        sql2 = "SELECT * FROM orders INNER JOIN products_order ON orders.id = products_order.order_id WHERE orders.id = ".concat(id);
-                        console.log(sql2);
-                        return [4 /*yield*/, connection.query(sql2)];
+                        return [4 /*yield*/, connection.query(sql)];
                     case 2:
                         output = _a.sent();
                         connection.release();

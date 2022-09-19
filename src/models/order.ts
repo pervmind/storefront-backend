@@ -23,9 +23,7 @@ export class OrderStore {
         try{
             const connection = await database.connect();
             const sql = `SELECT * FROM orders WHERE id = ${id}`;
-            const sql2 = `SELECT * FROM orders INNER JOIN products_order ON orders.id = products_order.order_id WHERE orders.id = ${id}`;
-            console.log(sql2);
-            const output = await connection.query(sql2);
+            const output = await connection.query(sql);
             connection.release();
             return output.rows
         }catch(error){

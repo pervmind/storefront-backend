@@ -43,20 +43,46 @@ var orderedProduct_1 = require("../services/orderedProduct");
 var jwtValidator_1 = __importDefault(require("../middleweres/jwtValidator"));
 var dashboard = new orderedProduct_1.Dashboard();
 var orderedProducts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var productAdded;
+    var productAdded, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log('dashboard_routes');
+                _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, dashboard.addProduct(req.params.id, req.body.productId, req.body.quantity)];
             case 1:
                 productAdded = _a.sent();
                 res.json(productAdded);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                res.status(400).send(error_1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var showProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var shownOrder, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, dashboard.showProducts(parseInt(req.params.id))];
+            case 1:
+                shownOrder = _a.sent();
+                res.json(shownOrder);
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                console.log(error_2);
+                res.status(400).send(error_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var dashboard_routes = function (app) {
+    app.get("/orders/:id/products", jwtValidator_1["default"], showProduct);
     app.post("/orders/:id/products", jwtValidator_1["default"], orderedProducts);
 };
 exports["default"] = dashboard_routes;
