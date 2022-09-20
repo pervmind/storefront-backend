@@ -22,3 +22,4 @@ dashboard_routes(app)
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`)
 })
+export default app

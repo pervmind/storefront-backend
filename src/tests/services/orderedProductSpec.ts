@@ -1,5 +1,4 @@
 import database from "../../database"
-import { Order } from "../../models/order"
 import { Dashboard } from "../../services/orderedProduct"
 const board = new Dashboard
 
@@ -34,7 +33,6 @@ describe("OrderedProduct service", () => {
     })
     it ("should return products list", async ()=>{
         const products = await board.showProducts(1)
-        console.log(products)
         expect(products).toEqual([])
     })
 })

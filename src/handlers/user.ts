@@ -36,7 +36,6 @@ const create = async (req: express.Request, res: express.Response) =>{
 
         const user = await userStore.create(newUser);
         const jwtoken = jwt.sign({ user }, tokenSecret )
-        console.log(jwtoken);
         res.json(jwtoken)
     }catch(error){
         res.status(400).send(error);

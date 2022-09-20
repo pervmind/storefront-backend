@@ -27,7 +27,6 @@ class UserStore {
         try {
             const connection = await database_1.default.connect();
             const sql = `SELECT * FROM users WHERE id = ${id}`;
-            console.log(sql);
             const output = await connection.query(sql);
             connection.release();
             return output.rows[0];

@@ -37,7 +37,6 @@ describe("OrderedProduct service", () => {
     });
     it("should return products list", async () => {
         const products = await board.showProducts(1);
-        console.log(products);
         expect(products).toEqual([]);
     });
 });

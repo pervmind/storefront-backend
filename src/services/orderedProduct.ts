@@ -1,5 +1,4 @@
 import database from "../database";
-import { Order } from "../models/order";
 export type ProductInOrder = {
     id: number,
     user_id: string,

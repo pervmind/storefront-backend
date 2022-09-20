@@ -23,7 +23,6 @@ export class ProductStore {
         try{
             const connection = await database.connect();
             const sql = `SELECT * FROM products WHERE id = ${id}`;
-            console.log(sql);
             const output = await connection.query(sql);
             connection.release();
             return output.rows[0]

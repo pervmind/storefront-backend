@@ -36,7 +36,6 @@ const create = async (req, res) => {
         };
         const user = await userStore.create(newUser);
         const jwtoken = jsonwebtoken_1.default.sign({ user }, exports.tokenSecret);
-        console.log(jwtoken);
         res.json(jwtoken);
     }
     catch (error) {

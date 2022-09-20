@@ -24,6 +24,7 @@ const database = new Pool({
     host: PGHOST,
     database: db,
     user: PGUSER,
-    password: PGPASSWORD
+    password: PGPASSWORD,
+    port: 5432
 })
 export default database;

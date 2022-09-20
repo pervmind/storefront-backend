@@ -21,6 +21,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 - A SHOW route: '/users/:id' [GET]
 - Create N[token required] 
 - A CREATE route: '/users' [POST]
+- Authenticate [token required]
+- An Auth routed: '/users/auth' [POST]
 
 #### Orders
 - Current Order by user (args: user id)[token required] 
