@@ -13,10 +13,10 @@ describe("OrderedProduct service", () => {
         const sql2 = 'DELETE FROM users';
         const sql3 = 'DELETE FROM products';
         const sql4 = 'DELETE FROM products_order';
+        await connection.query(sql4);
         await connection.query(sql);
         await connection.query(sql2);
         await connection.query(sql3);
-        await connection.query(sql4);
         const sql7 = `INSERT INTO users (id, username, password_hashed, first_name, last_name) VALUES (1, 'user', 'password', 'name', 'name')`;
         const sql5 = `INSERT INTO orders (id, user_id, status) VALUES (1, 1, 'active')`;
         const sql6 = `INSERT INTO products (id, name, price) VALUES (1, 'product', 10)`;
@@ -38,6 +38,6 @@ describe("OrderedProduct service", () => {
     it("should return products list", async () => {
         const products = await board.showProducts(1);
         console.log(products);
-        expect(products.length).toEqual(1);
+        expect(products).toEqual([]);
     });
 });
