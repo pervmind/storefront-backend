@@ -21,7 +21,6 @@ const database = new pg_1.Pool({
     host: PGHOST,
     database: db,
     user: PGUSER,
-    password: PGPASSWORD,
-    port: 5432
+    password: PGPASSWORD
 });
 exports.default = database;
