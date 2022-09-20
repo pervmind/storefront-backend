@@ -47,8 +47,10 @@ SECRETTOKEN=this is a secret string for jwt signiture (set to any string of your
 }
 ```
 5. after making the two files check the package.json file for the scripts to running the api 
+6. create the two databases and set their names according to the names set in the .env and database.json files.
 ### 2. Running phase (set ENV=dev in .env file)
 
+0. to start running phase set ENV=dev in the .env file (must)
 1. to run the api start with running the server  and you have two options
 * use the start script 
 ```
@@ -82,4 +84,12 @@ db-migrate up
 | add to order [POST] | '/orders/:id/products' | adds products to a certain order | params.id , body.token , body.productId, body.quantity [ a product, a user and an order must be created first to add together using this endpoint]|
 | show products in order [GET] | '/orders/:id/products' | shows a list of products in an order | params.id , body.token [ add to order endpoint must be used first before this endpoint ]|
 
+### 3. testing phase (set ENV=test in .env file)
 
+0. to start testing phase set ENV=test in .env file (must)
+1. if you were in running phase stop the server using ctrl+c because the port will be needed in testing
+2. use the test script to run the tests
+```
+yarn test
+```
+3. hopefully all tests will pass and the test database will be cleared after each test.
