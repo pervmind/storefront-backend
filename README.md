@@ -1,54 +1,85 @@
-# Storefront Backend Project
+# Storefront-backend project
 
-## Getting Started
+## About project
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+this project is made as a back end course project and it was made for educational purposes only.
+this project is made by only one person (me) and I did not copy-paste any code from any sources and I garentee that this project is written by only me and it is an application to the course content.
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+## Getting started
 
-## Steps to Completion
+In order to get started with this backend api you need to clone this repository to your device and follow the instructions below.
 
-### 1. Plan to Meet Requirements
+## Steps to Run the API
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+### 1.Set up enviroment variables and database.json file
+these files are not included in the repository because they depend on environment configuration that you need to do yourself.
+1. create a new file in the root directory and name it .env 
+2. this file should have values for enviroment variables .. here is a sample of what the file should look like copy it and change the values
+```
+PGUSER=your postgres username
+PGPASSWORD=your postgres password
+PGHOST=you database host (localhost if you are hosting it on your machine)
+PGDATABASE=the main database name
+TEST_DB=the test database name
+ENV=(this variable should be set to 'dev' if you are doing developmentphase and should be set to 'test' if you are doing test phase)
+PEPPER=this is a pepper string (set ot any string of your choice to be pepper for password hashing)
+ROUNDS=this is the hashing rounds number (set to any number ie: 10)
+SECRETTOKEN=this is a secret string for jwt signiture (set to any string of your choice)
+```
+3. create a file named database.json in the root directory
+4. this file should contain information about the databases used for the api .. it should look like this .. change values within ()
+```
+{
+    "dev": {
+      "driver": "pg",
+      "host": "127.0.0.1",
+      "database": "(dev database name)",
+      "user": "(pg username)",
+      "password": "(pg password)"
+    },
+    "test": {
+      "driver": "pg",
+      "host": "127.0.0.1",
+      "database": "(test database name)",
+      "user": "(pg username)",
+      "password": "(pg password)"
+    }
+}
+```
+5. after making the two files check the package.json file for the scripts to running the api 
+### 2. Running phase (set ENV=dev in .env file)
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+1. to run the api start with running the server  and you have two options
+* use the start script 
+```
+yarn start
+```
+* use the watch script
+``` 
+yarn watch
+```
+2. after startign the server open [postman software](https://www.postman.com/) and start using the api endpoints in the requirements file
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+3. (optional) to help a little bit with postman import storefront back-end.postman_collection.json file found in the root directory to postman on your device .. this will automatically get you all the requests in the api with the required body format so you can start putting your values and fetch the requests
+4. run the migration command in the terminal to set up your database for the api
+```
+db-migrate up
+```
+5. here is a table of all the endpoints available for the api
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
+| request | url | description | requirments|
+| ------- | --- | ----------- | ---------- |
+| index users [GET] | '/users' | gets all users in the users table | body.token |
+| show users [GET] | '/users/:id' | gets a user with a certain id | params.id , body.token |
+| create user [POST] | '/users' | adds user to the users table and returns their jwt in the response | body.username, body.password, body.firstName, body.lastName|
+| authenticate user [POST] | '/users/auth' | authenticates user returning user when successful | body.username. body.password, body.token|
+| index products [GET] | '/products' | gets all products in the products table | NO REQUIREMENT |
+| show product [GET] | '/products/:id' | gets a product with certain id | params.id |
+| create product [POST] | '/products' | creates a new product and returns it | body.name , body.price, body.token |
+| index orders [GET] | '/orders' | gets all orders in the orders table | NO REQUIREMENT |
+| show order [GET] | '/orders/:id' | gets an order with certain id | params.id , body.token |
+| create order [POST] | '/orders' | adds order to orders table | body.token , body.userId , body.status [a user must be created first to use their id in order]|
+| add to order [POST] | '/orders/:id/products' | adds products to a certain order | params.id , body.token , body.productId, body.quantity [ a product, a user and an order must be created first to add together using this endpoint]|
+| show products in order [GET] | '/orders/:id/products' | shows a list of products in an order | params.id , body.token [ add to order endpoint must be used first before this endpoint ]|
 
-### 2.  DB Creation and Migrations
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
-
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
-
-### 3. Models
-
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
-
-### 4. Express Handlers
-
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
-
-### 5. JWTs
-
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
-
-### 6. QA and `README.md`
-
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
-
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!

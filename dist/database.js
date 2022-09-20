@@ -2,25 +2,25 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 // importing dotenv to get env variables
 // importing pool to start postgres connection
-const dotenv_1 = __importDefault(require("dotenv"));
-const pg_1 = require("pg");
-dotenv_1.default.config();
+var dotenv_1 = __importDefault(require("dotenv"));
+var pg_1 = require("pg");
+dotenv_1["default"].config();
 // getting values from env file
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, TEST_DB } = process.env;
+var _a = process.env, PGHOST = _a.PGHOST, PGDATABASE = _a.PGDATABASE, PGUSER = _a.PGUSER, PGPASSWORD = _a.PGPASSWORD, TEST_DB = _a.TEST_DB;
 // checking for testing phase
-let db = PGDATABASE;
+var db = PGDATABASE;
 if (process.env.ENV === 'test') {
     db = TEST_DB;
 }
 console.log(db);
 // starting connection
-const database = new pg_1.Pool({
+var database = new pg_1.Pool({
     host: PGHOST,
     database: db,
     user: PGUSER,
     password: PGPASSWORD
 });
-exports.default = database;
+exports["default"] = database;
