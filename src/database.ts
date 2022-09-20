@@ -26,4 +26,5 @@ const database = new Pool({
     user: PGUSER,
     password: PGPASSWORD
 })
+//exported database for models and testing
 export default database;

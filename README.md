@@ -48,6 +48,17 @@ SECRETTOKEN=this is a secret string for jwt signiture (set to any string of your
 ```
 5. after making the two files check the package.json file for the scripts to running the api 
 6. create the two databases and set their names according to the names set in the .env and database.json files.
+### 1.9 Create databases
+1. open postgres psql
+2. create main database 
+```
+CREATE DATABASE your_database;
+```
+3. create test database
+```
+CREATE DATABASE test_database;
+```
+NOTE: the databases usually run on port 5432 and the server itself runs on port 3000
 ### 2. Running phase (set ENV=dev in .env file)
 
 0. to start running phase set ENV=dev in the .env file (must)
