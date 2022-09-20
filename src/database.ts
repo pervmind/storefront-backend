@@ -18,6 +18,7 @@ let db = PGDATABASE;
 if(process.env.ENV === 'test'){
     db = TEST_DB;
 }
+console.log(db);
 // starting connection
 const database = new Pool({
     host: PGHOST,

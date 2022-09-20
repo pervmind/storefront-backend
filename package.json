@@ -6,10 +6,12 @@
   "scripts": {
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "npm run testmigrateup && jasmine-ts && npm run testmigratedown",
-    "testmigrateup": "ENV=test db-migrate --env test up",
+    "test": "yarn cross-env && yarn testmigrateup && yarn tsc && yarn jasmine && yarn testmigratedown",
+    "testmigrateup": "db-migrate --env test up",
     "testmigratedown": "db-migrate --env test reset",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "jasmine": "jasmine",
+    "cross-env": "cross-env ENV=test"
   },
   "author": "Udacity",
   "license": "ISC",
@@ -33,9 +35,11 @@
     "@types/jasmine": "^3.10.6",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/pg": "^7.14.11",
+    "cross-env": "^7.0.3",
     "jasmine": "^3.99.0",
-    "jasmine-spec-reporter": "^6.0.0",
+    "jasmine-spec-reporter": "^7.0.0",
     "jasmine-ts": "^0.3.3",
+    "supertest": "^6.2.4",
     "ts-node": "^9.1.1",
     "tsc-watch": "^4.6.2"
   }
